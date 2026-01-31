@@ -1,4 +1,9 @@
 # 🌌 Gravity Rename
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Language: Rust](https://img.shields.io/badge/Language-Rust-orange.svg)](https://www.rust-lang.org/)
+[![Platform: macOS](https://img.shields.io/badge/Platform-macOS-blue.svg)](https://www.apple.com/macos/)
+[![Swift: 5.9](https://img.shields.io/badge/Swift-5.9-f05138.svg)](https://swift.org/)
+
 ### *Atomic. Parallel. Paranoid.*
 
 Gravity is a professional-grade batch renaming suite for macOS, engineered in Rust and Swift for users who demand absolute data integrity and blazing performance.
