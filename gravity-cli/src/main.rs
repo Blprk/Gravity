@@ -73,6 +73,7 @@ fn main() -> Result<()> {
                     }
                 }).collect();
                 println!("{}", Table::new(rows).to_string());
+                println!("\nSummary: {} files processed.", files.len());
             }
         }
         Commands::Commit { rules, files } => {
@@ -90,6 +91,7 @@ fn main() -> Result<()> {
                 anyhow::bail!("Cannot commit: {} conflicts detected.", conflicts.len());
             }
 
+            let file_count = results.len();
             let plans: Vec<(PathBuf, PathBuf)> = results.into_iter()
                 .map(|item| (item.original_path, item.new_path))
                 .collect();
@@ -104,7 +106,7 @@ fn main() -> Result<()> {
                     journal_path.push(format!("journal-{}.json", journal.id));
                     
                     std::fs::write(&journal_path, serde_json::to_string_pretty(&journal)?)?;
-                    println!("Rename successful. Journal saved to {}", journal_path.display());
+                    println!("Rename successful ({} files). Journal saved to {}", file_count, journal_path.display());
                 }
                 Err((journal, err)) => {
                     let mut journal_path = cli.journal_dir.clone().unwrap_or_else(|| PathBuf::from("."));

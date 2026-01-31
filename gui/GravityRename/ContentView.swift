@@ -168,6 +168,13 @@ struct DetailView: View {
                     .popover(isPresented: $showingHistory, arrowEdge: .bottom) {
                         JournalHistoryPopover(alertMessage: $alertMessage, showingAlert: $showingAlert)
                     }
+                    if !files.isEmpty {
+                        Text("\(files.count) Items")
+                            .font(.system(.caption, design: .monospaced))
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(Capsule().fill(Color.secondary.opacity(0.1)))
+                    }
 
                     if let error = errorMessage {
                         HStack {
