@@ -6,7 +6,6 @@ Gravity uses a sequence-based pipeline. Rules are applied in the order they appe
 |:---|:---|:---|
 | **Strip Prefix** | Removes specific text from the start of the filename. | `prefix` |
 | **Strip Suffix** | Removes specific text from the end of the filename. | `suffix` |
-| **Filter Content** | Removes entire classes of characters. | `filter` (Numbers, Letters, Whitespace, Symbols) |
 | **Regex Replace** | Powerful pattern-based replacement. | `pattern`, `replacement` |
 | **Literal** | Inserts specific text at a chosen position. | `text`, `position` (Start, End, Index) |
 | **Counter** | Appends an auto-incrementing number. | `start`, `step`, `padding`, `separator` |
@@ -14,4 +13,4 @@ Gravity uses a sequence-based pipeline. Rules are applied in the order they appe
 | **Date Insertion** | Inserts timestamps into the filename. | `format`, `source` (Current, Created, Modified, EXIF) |
 
 ---
-*Pro Tip: Use 'Filter Content -> Numbers' to quickly clean up randomized file IDs from your assets.*
+*Pro Tip: Use 'Regex Replace -> \d+' with an empty replacement to quickly clean up randomized file numbers.*

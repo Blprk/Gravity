@@ -172,7 +172,6 @@ struct Rule: Codable, Identifiable, Equatable {
         case counter
         case literal
         case date_insertion
-        case filter_content
     }
     
     // Manual CodingKeys to handle the "flat" JSON from Rust
@@ -242,7 +241,6 @@ struct Rule: Codable, Identifiable, Equatable {
         case .counter: return ["start": "1", "padding": "3", "step": "1", "separator": "_"]
         case .literal: return ["text": "", "position": "start"]
         case .date_insertion: return ["format": "%Y-%m-%d", "source": "current"]
-        case .filter_content: return ["filter": "numbers"]
         }
     }
 }

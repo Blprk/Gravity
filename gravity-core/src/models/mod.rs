@@ -59,16 +59,6 @@ pub enum Rule {
     Literal { text: String, position: Position },
     Counter { padding: usize, start: usize, step: usize, separator: String },
     DateInsertion { format: String, source: DateSource },
-    FilterContent { filter: FilterType },
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "snake_case")]
-pub enum FilterType {
-    Numbers,
-    Letters,
-    Whitespace,
-    Symbols,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -216,21 +206,6 @@ impl Rule {
                     .map(|dt| dt.format(format).to_string())
                     .unwrap_or_else(|| "".to_string());
                 base.push_str(&date_str);
-            }
-            Rule::FilterContent { filter } => {
-                let current_base = base.clone();
-                base.clear();
-                for c in current_base.chars() {
-                    let should_remove = match filter {
-                        FilterType::Numbers => c.is_numeric(),
-                        FilterType::Letters => c.is_alphabetic(),
-                        FilterType::Whitespace => c.is_whitespace(),
-                        FilterType::Symbols => !c.is_alphanumeric() && !c.is_whitespace(),
-                    };
-                    if !should_remove {
-                        base.push(c);
-                    }
-                }
             }
         }
 

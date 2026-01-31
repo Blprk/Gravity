@@ -428,7 +428,6 @@ struct RuleStackView: View {
                     Menu {
                         Button("Strip Prefix") { addRule(.strip_prefix) }
                         Button("Strip Suffix") { addRule(.strip_suffix) }
-                        Button("Filter Content") { addRule(.filter_content) }
                         Button("Regex Replace") { addRule(.regex_replace) }
                         Button("Literal Text") { addRule(.literal) }
                         Button("Counter") { addRule(.counter) }
@@ -555,14 +554,6 @@ struct RuleRow: View {
                         }
                         .labelsHidden()
                     }
-                case .filter_content:
-                    Picker("Remove", selection: parameterBinding("filter")) {
-                        Text("Numbers").tag("numbers")
-                        Text("Letters").tag("letters")
-                        Text("Whitespace").tag("whitespace")
-                        Text("Symbols / Punctuation").tag("symbols")
-                    }
-                    .labelsHidden()
                 }
             }
             .textFieldStyle(.roundedBorder)
