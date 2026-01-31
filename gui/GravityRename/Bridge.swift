@@ -37,7 +37,21 @@ class RenameBridge {
     // Find the rust binary. In production, this would be bundled.
     // For development, we'll assume it's in a known location or built via cargo.
     private var binaryPath: String {
-        return Bundle.main.path(forResource: "gravity-cli", ofType: nil) ?? "/usr/local/bin/gravity-cli"
+        if let path = Bundle.main.path(forResource: "gravity-cli", ofType: nil) {
+            return path
+        }
+        // Fallback for different bundle structures or development
+        let possiblePaths = [
+            Bundle.main.bundlePath + "/Contents/Resources/gravity-cli",
+            Bundle.main.bundlePath + "/gravity-cli",
+            "/usr/local/bin/gravity-cli"
+        ]
+        for path in possiblePaths {
+            if FileManager.default.fileExists(atPath: path) {
+                return path
+            }
+        }
+        return "/usr/local/bin/gravity-cli"
     }
 
     func runPreview(files: [URL], rules: [Rule]) async throws -> [PreviewItem] {
