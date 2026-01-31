@@ -25,6 +25,20 @@ Powered by a Work-Stealing Parallel Engine (via Rayon), Gravity saturates all CP
 
 ---
 
+## 🏔 Gravity vs. macOS Finder
+
+While Finder has a basic rename tool, Gravity is built for a different level of control and reliability:
+
+| Feature | macOS Finder | **Gravity** |
+|:---:|:---:|:---:|
+| **Atomic Undo** | ❌ None | ✅ Secure Undo Journals |
+| **Parallelism** | ❌ Sequential | ✅ Multi-Core Rust Engine |
+| **Pro Metadata** | ⚠️ Basic | ✅ Deep EXIF / RAW Support |
+| **Conflict Safety** | ⚠️ Appends " (1)" | ✅ Pre-emptive APFS Validation |
+| **Complex Pipes** | ❌ One-Layer | ✅ Multi-Stage Rule Pipelines |
+
+---
+
 ## 🛠 Project Architecture
 
 | Component | Responsibility | Tech Stack |
