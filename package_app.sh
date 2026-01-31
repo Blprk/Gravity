@@ -74,7 +74,7 @@ EOF
 
 # 5. Clear Icon Cache
 touch "$DEST_PATH"
-/usr/bin/qlmanage -p "$DEST_PATH" >/dev/null 2>&1 || true
+/usr/bin/qlmanage -r >/dev/null 2>&1 || true
 
 # 6. Create Distribution Zip
 echo "📦 Creating distribution package..."

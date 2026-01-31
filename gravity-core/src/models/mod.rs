@@ -59,6 +59,16 @@ pub enum Rule {
     Literal { text: String, position: Position },
     Counter { padding: usize, start: usize, step: usize, separator: String },
     DateInsertion { format: String, source: DateSource },
+    FilterContent { filter: FilterType },
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum FilterType {
+    Numbers,
+    Letters,
+    Whitespace,
+    Symbols,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -202,11 +212,21 @@ impl Rule {
                         }
                     }
                 }
-
                 let date_str = date_time
                     .map(|dt| dt.format(format).to_string())
                     .unwrap_or_else(|| "".to_string());
                 base.push_str(&date_str);
+            }
+            Rule::FilterContent { filter } => {
+                let pattern = match filter {
+                    FilterType::Numbers => r"\d",
+                    FilterType::Letters => r"[a-zA-Z]",
+                    FilterType::Whitespace => r"\s",
+                    FilterType::Symbols => r"[^\w\s]",
+                };
+                if let Ok(re) = regex::Regex::new(pattern) {
+                    base = re.replace_all(&base, "").to_string();
+                }
             }
         }
 

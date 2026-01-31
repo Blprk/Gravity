@@ -537,6 +537,14 @@ struct RuleRow: View {
                         }
                         .labelsHidden()
                     }
+                case .filter_content:
+                    Picker("Remove", selection: parameterBinding("filter")) {
+                        Text("Numbers").tag("numbers")
+                        Text("Letters").tag("letters")
+                        Text("Whitespace").tag("whitespace")
+                        Text("Symbols / Punctuation").tag("symbols")
+                    }
+                    .labelsHidden()
                 }
             }
             .textFieldStyle(.roundedBorder)
