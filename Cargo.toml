@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "gravity-core",
+    "gravity-cli",
+]
+resolver = "2"
