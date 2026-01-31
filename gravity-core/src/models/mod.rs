@@ -218,14 +218,18 @@ impl Rule {
                 base.push_str(&date_str);
             }
             Rule::FilterContent { filter } => {
-                let pattern = match filter {
-                    FilterType::Numbers => r"\d",
-                    FilterType::Letters => r"[a-zA-Z]",
-                    FilterType::Whitespace => r"\s",
-                    FilterType::Symbols => r"[^\w\s]",
-                };
-                if let Ok(re) = regex::Regex::new(pattern) {
-                    base = re.replace_all(&base, "").to_string();
+                let current_base = base.clone();
+                base.clear();
+                for c in current_base.chars() {
+                    let should_remove = match filter {
+                        FilterType::Numbers => c.is_numeric(),
+                        FilterType::Letters => c.is_alphabetic(),
+                        FilterType::Whitespace => c.is_whitespace(),
+                        FilterType::Symbols => !c.is_alphanumeric() && !c.is_whitespace(),
+                    };
+                    if !should_remove {
+                        base.push(c);
+                    }
                 }
             }
         }

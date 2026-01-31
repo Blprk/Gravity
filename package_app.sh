@@ -17,6 +17,9 @@ mkdir -p "$DEST_PATH/Contents/Resources"
 if [ -f "$BINARY_SOURCE" ]; then
     cp "$BINARY_SOURCE" "$DEST_PATH/Contents/MacOS/Gravity"
     chmod +x "$DEST_PATH/Contents/MacOS/Gravity"
+    # Copy CLI as well
+    cp "$PROJECT_ROOT/gui/GravityRename/gravity-cli" "$DEST_PATH/Contents/Resources/gravity-cli"
+    chmod +x "$DEST_PATH/Contents/Resources/gravity-cli"
 else
     echo "❌ Error: Binary not found. Run 'swift build -c release' first."
     exit 1

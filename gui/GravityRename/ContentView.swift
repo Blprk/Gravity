@@ -44,8 +44,9 @@ struct ContentView: View {
         .onChange(of: files) { _, _ in updatePreview() }
     }
 
-    func addRule() {
-        rules.append(Rule(type: .literal, params: ["text": "new_", "position": "start"]))
+    func addRule(_ type: Rule.RuleType) {
+        let rule = Rule(type: type)
+        rules.append(Rule(type: type, params: rule.defaultParams(for: type)))
     }
 
     func saveRules() {
@@ -397,7 +398,7 @@ struct PreviewTableView: View {
 
 struct RuleStackView: View {
     @Binding var rules: [Rule]
-    let addRule: () -> Void
+    let addRule: (Rule.RuleType) -> Void
     let saveRules: () -> Void
     let loadRules: () -> Void
     
@@ -405,33 +406,50 @@ struct RuleStackView: View {
         List {
             Section {
                 HStack {
-                    Button(action: addRule) {
-                        Label("Add", systemImage: "plus.circle.fill")
-                    }
-                    .buttonStyle(.plain)
-                    .foregroundColor(.accentColor)
-                    
-                    Spacer()
-                    
                     HStack(spacing: 12) {
                         Button(action: saveRules) {
-                            Image(systemName: "square.and.arrow.down")
+                            Label("Save Rules", systemImage: "square.and.arrow.down")
                         }
                         .buttonStyle(.plain)
-                        .help("Save Rules")
 
                         Button(action: loadRules) {
-                            Image(systemName: "folder")
+                            Label("Load Rules", systemImage: "folder")
                         }
                         .buttonStyle(.plain)
-                        .help("Load Rules")
                     }
                     .foregroundColor(.secondary)
+                    .font(.caption2)
                 }
                 .padding(.vertical, 4)
             }
             
             Section("Pipeline") {
+                HStack {
+                    Menu {
+                        Button("Strip Prefix") { addRule(.strip_prefix) }
+                        Button("Strip Suffix") { addRule(.strip_suffix) }
+                        Button("Filter Content") { addRule(.filter_content) }
+                        Button("Regex Replace") { addRule(.regex_replace) }
+                        Button("Literal Text") { addRule(.literal) }
+                        Button("Counter") { addRule(.counter) }
+                        Button("Case Transform") { addRule(.case_transform) }
+                        Button("Date Insertion") { addRule(.date_insertion) }
+                    } label: {
+                        Label("Add Rule", systemImage: "plus.circle.fill")
+                    }
+                    .menuStyle(.borderlessButton)
+                    .foregroundColor(.accentColor)
+                    
+                    Spacer()
+                    
+                    Button("Clear All", role: .destructive) {
+                        rules.removeAll()
+                    }
+                    .font(.caption2)
+                    .foregroundColor(.red.opacity(0.8))
+                }
+                .padding(.vertical, 4)
+
                 ForEach(rules) { rule in
                     if let index = rules.firstIndex(where: { $0.id == rule.id }) {
                         RuleRow(rule: $rules[index]) {
